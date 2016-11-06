@@ -1,28 +1,44 @@
-# 16623AdvancedComputerVisionApps-FinalProject
+# 16623 - Advanced Computer Vision Apps 
 
-Title: Please provide the title of your project, followed by the names of all team members. Teams may include up to two students (special permission can be obtained for a team of three although there
-must be a very good reason).
+Project Proposal
+Abhishek Bhatia (abhatia1), Shiyu Dong (shiyud)
 
-Summary: Summarize your project in no more than 2-3 sentences. Describe what you plan to do and what mobile vision problem you will be working on. See 16623.courses.cs.cmu.edu/ideas for
-example project ideas.
+Title: Real-time Monocular Visual Odometry on an IOS Device.
 
-Background: If your project involves taking advantage of computational speedups available on your iOS device - such as box filters, inverse composition in the LK algorithm, NEON intrinsics, OpenGL
-ES, Accelerate Framework, binary descriptors such as FAST and BRIEF, etc. - describe theirapplication and why they are necessary in more detail. If your project involves something around
-using your device in a mobile fashion - for example virtually rendering an object in your room - then describe what components of your solution are unique to a mobile device (the high-speed camera,
-GPS, IMU, Gyro?).
+Summary: The idea is to develop an application for efficient real-time trajectory generation using the monocular visual odometry method. We intend to utilize the concepts learnt in the class to develop the complete pipeline that includes feature extraction and matching, essential matrix estimation, and calculating the rotation and translation to generate the trajectory. We may, if time permits, modify this project for reliable relative scale estimation. 
 
-The Challenge: Describe in a few sentences why the problem is challenging. Could you solve your problem using just a few pre-existing functions in OpenCV? Try to state explicitly what you are
-hoping to learn by doing this project and how is it related to mobile computer vision? A flow chart or visual depiction of what you are trying to do would be good here. Some questions to consider:
-• Does the challenge lie in making an existing vision algorithm more efficient in iOS? 
-• Are you trying to solve a real-world problem that can only be solved through a combination of computer vision and mobile computing?
+Background: Visual Odometry is an interesting topic to study in mobile applications. Localization and odometry with mobile devices are widely used in drones, virtual reality and other platforms. Several things need to be taken into consideration for developing visual odometry on mobile phones.
+1) Calibration of phone camera.
+2) Efficient keypoint detectors and descriptors for mobile development.
+3) Incorporating IMU data to save computation while recovering the essential matrix.
 
-Goals & Deliverables: Describe the deliverables or goals of your project.
-• In a couple of sentences separate your goals into what you PLAN TO ACHIEVE (what you believe you must get done to have a successful project and get the grade you expect) and an
-extra goal or two that you HOPE TO ACHIEVE if the project goes really well and you get ahead of schedule.
-• Describe what success looks like and how it can be evaluated. For example, if your project is to measure the velocity of a baseball being thrown in front of an iOS device, how will you
-validate that it works? Screen shots of the App in action? A speed benchmark run across a variety of videos? A live video of the app in action? It will NOT be enough to simply provide
-the Xcode project - you will need to provide evidence that you have achieved your goal.
-• How realistic is it for your team to get what it needs to get done within the allotted time? Remember you only have a few weeks to get this project completed.
+The Challenge: 
+1) Scale factor estimation.
+2) Extracting ground truth for performance evaluation.
 
-Schedule: Produce a schedule for your project. Your schedule should have at least one item to do per week per participant. List what your plan to get done each week from now until the 11th of
-December deadline.
+Goals & Deliverables: 
+Baseline:
+1) Implementing the visual odometry algorithm on laptop using OpenCV, and testing using the KITTI dataset. We should be able to generate trajectory from camera frames and find the accuracy comparing our output with the ground truth from the dataset.
+2) We’ll then implement the algorithm on the IOS device. We’ll show that when holding the phone in hand (or on a moving robot), we’re able to generate a real-time trajectory.
+
+Further Improvements:
+1) Instead of using five-point algorithm from camera view, we’ll try to incorporate IMU data in finding the essential matrix. We’ll try using a three-point algorithm or five-point algorithm with IMU data. 
+2) We’ll further show that with the use of IMU data, we can achieve higher frame rate with similar accuracy.
+
+Schedule: 
+Abhishek:
+1) 11/06 - 11/12: Literature Review
+2) 11/13 - 11/19: Algorithm Development (Feature Detection and Matching) 
+3) 11/20 - 11/26: Porting and Optimization
+4) 11/27 - 12/03: Testing on the IOS device
+5) 12/04 - 12/11: Modifications and wrap up
+
+Shiyu:
+1) 11/06 - 11/12: Figuring out methods for ground truth generation
+2) 11/13 - 11/19: Algorithm Development (Essential Matrix Estimation based on RANSAC)
+3) 11/20 - 11/26: Porting and Optimization
+4) 11/27 - 12/03: Improvements based on the test results
+5) 12/04 - 12/11: Modifications and wrap up
+
+Reference:
+http://avisingh599.github.io/vision/monocular-vo/
