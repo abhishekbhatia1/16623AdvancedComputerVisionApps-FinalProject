@@ -18,6 +18,7 @@ Visual Odometry is an interesting topic to study in mobile applications. Localiz
 ###The Challenge: <br />
 1) Scale factor estimation. <br />
 It's hard to recover the scale factor only from monocular camera images. In this project, we'll try to fuse IMU and camera, to estimate the abosulute scale factor.
+
 2) Extracting ground truth for performance evaluation. <br />
 We can get direct access to the ground truth from the KITTI dataset. However when we're testing using the live camera on phone, we may need to use other sensor to get the ground truth to evaluate the performance of our algorithm.
 
