@@ -1,1 +1,1 @@
-/home/shiyu/test/pose_estimation/CMakeFiles/estimation.dir
+/home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation/CMakeFiles/estimation.dir

@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/shiyu/test/pose_estimation/estimation.cpp
+/home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation/estimation.cpp
 opencv2/opencv.hpp
 -
 opencv2/core/core.hpp

@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/shiyu/test/pose_estimation
+CMAKE_SOURCE_DIR = /home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/shiyu/test/pose_estimation
+CMAKE_BINARY_DIR = /home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation
 
 # Include any dependencies generated for this target.
 include CMakeFiles/estimation.dir/depend.make
@@ -51,17 +51,17 @@ include CMakeFiles/estimation.dir/flags.make
 
 CMakeFiles/estimation.dir/estimation.cpp.o: CMakeFiles/estimation.dir/flags.make
 CMakeFiles/estimation.dir/estimation.cpp.o: estimation.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/shiyu/test/pose_estimation/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/estimation.dir/estimation.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/estimation.dir/estimation.cpp.o -c /home/shiyu/test/pose_estimation/estimation.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/estimation.dir/estimation.cpp.o -c /home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation/estimation.cpp
 
 CMakeFiles/estimation.dir/estimation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/estimation.dir/estimation.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/shiyu/test/pose_estimation/estimation.cpp > CMakeFiles/estimation.dir/estimation.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation/estimation.cpp > CMakeFiles/estimation.dir/estimation.cpp.i
 
 CMakeFiles/estimation.dir/estimation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/estimation.dir/estimation.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/shiyu/test/pose_estimation/estimation.cpp -o CMakeFiles/estimation.dir/estimation.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation/estimation.cpp -o CMakeFiles/estimation.dir/estimation.cpp.s
 
 CMakeFiles/estimation.dir/estimation.cpp.o.requires:
 .PHONY : CMakeFiles/estimation.dir/estimation.cpp.o.requires
@@ -125,6 +125,6 @@ CMakeFiles/estimation.dir/clean:
 .PHONY : CMakeFiles/estimation.dir/clean
 
 CMakeFiles/estimation.dir/depend:
-	cd /home/shiyu/test/pose_estimation && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/shiyu/test/pose_estimation /home/shiyu/test/pose_estimation /home/shiyu/test/pose_estimation /home/shiyu/test/pose_estimation /home/shiyu/test/pose_estimation/CMakeFiles/estimation.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation /home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation /home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation /home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation /home/shiyu/16623AdvancedComputerVisionApps-FinalProject/pose_estimation/CMakeFiles/estimation.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/estimation.dir/depend
 
