@@ -8,10 +8,36 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+using namespace std;
+using namespace cv;
 #define MAX_FRAME 1000
 
+void featureTracking(cv::Mat img_1, cv::Mat img_2, std::vector<Point2f>& points1, std::vector<Point2f>& points2, std::vector<uchar>& status)	{ 
 
+//this function automatically gets rid of points for which tracking fails
+
+  std::vector<float> err;					
+  cv::Size winSize=Size(21,21);																								
+  TermCriteria termcrit=TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 0.01);
+
+  calcOpticalFlowPyrLK(img_1, img_2, points1, points2, status, err, winSize, 3, termcrit, 0, 0.001);
+
+  //getting rid of points for which the KLT tracking failed or those who have gone outside the frame
+  int indexCorrection = 0;
+  for( int i=0; i<status.size(); i++)
+     {  Point2f pt = points2.at(i- indexCorrection);
+     	if ((status.at(i) == 0)||(pt.x<0)||(pt.y<0))	{
+     		  if((pt.x<0)||(pt.y<0))	{
+     		  	status.at(i) = 0;
+     		  }
+     		  points1.erase (points1.begin() + (i - indexCorrection));
+     		  points2.erase (points2.begin() + (i - indexCorrection));
+     		  indexCorrection++;
+     	}
+
+     }
+
+}
 
 int main(void) {
 
@@ -19,9 +45,28 @@ int main(void) {
 	char objfile[100];
 	int flag = 1;
 	cv::Mat traj = cv::Mat::zeros(600, 600, CV_8UC3);
-	cv::namedWindow( "Trajectory", cv::WINDOW_AUTOSIZE );// Create a window for display.
+	cv::namedWindow( "Trajectory", cv::WINDOW_AUTOSIZE);// Create a window for display.
 
 	cv::Mat R_f, t_f;
+
+
+	// char filename1[200];
+ //  	char filename2[200];
+ //  	sprintf(filename1, "/home/shiyu/mono-vo/dataset/sequences/00/image_1/%06d.png", 0);
+ //  	sprintf(filename2, "/home/shiyu/mono-vo/dataset/sequences/00/image_1/%06d.png", 1);
+	// cv::Mat imgScene = cv::imread(filename1);
+	// if (imgScene.empty()) {			    // if unable to open image
+ //        std::cout << "error: image not read from file\n\n";		// show error message on command line
+ //        return(0);												// and exit program
+	// }
+
+	// cv::Ptr<cv::ORB> orb = cv::ORB::create();
+	// std::vector<cv::KeyPoint> sceneKeypoints;
+	// cv::Mat sceneDescriptors;
+	// orb->detectAndCompute(imgScene, cv::noArray(), sceneKeypoints, sceneDescriptors);
+	// std::vector<cv::Point2f> scene;
+	// KeyPoint::convert(sceneKeypoints, scene, std::vector<int>());
+
 
 	for(int numFrame = 0; numFrame < MAX_FRAME; numFrame++)	{
 
@@ -34,42 +79,40 @@ int main(void) {
 	    cv::Mat imgObject = cv::imread(objfile);
 	    
 
-	    if (imgObject.empty() || imgScene.empty()) {			    // if unable to open image
-	        std::cout << "error: image not read from file\n\n";		// show error message on command line
-	        
-	        return(0);												// and exit program
-	    }
+	    
 
 	    cv::Ptr<cv::ORB> orb = cv::ORB::create();
 
-	    std::vector<cv::KeyPoint> objectKeypoints;
+	    //std::vector<cv::KeyPoint> objectKeypoints;
 	    std::vector<cv::KeyPoint> sceneKeypoints;
 
-	    cv::Mat objectDescriptors;
+	    //cv::Mat objectDescriptors;
 	    cv::Mat sceneDescriptors;
 
-	    orb->detectAndCompute(imgObject, cv::noArray(), objectKeypoints, objectDescriptors);
+	    //orb->detectAndCompute(imgObject, cv::noArray(), objectKeypoints, objectDescriptors);
 	    orb->detectAndCompute(imgScene, cv::noArray(), sceneKeypoints, sceneDescriptors);
 
-	    cv::BFMatcher bfMatcher(cv::NORM_HAMMING, true);
+	    //cv::BFMatcher bfMatcher(cv::NORM_HAMMING, true);
 
-	    std::vector<cv::DMatch> matches;
+	    //std::vector<cv::DMatch> matches;
 
-	    bfMatcher.match(objectDescriptors, sceneDescriptors, matches);
+	    //bfMatcher.match(objectDescriptors, sceneDescriptors, matches);
 
-	    cv::Mat imgFinal;
+	    //cv::Mat imgFinal;
 
-	    cv::drawMatches(imgObject, objectKeypoints, imgScene, sceneKeypoints, matches, imgFinal);
+	    //cv::drawMatches(imgObject, objectKeypoints, imgScene, sceneKeypoints, matches, imgFinal);
 
 	    std::vector<cv::Point2f> obj;
 	  	std::vector<cv::Point2f> scene;
-	  	for( int i = 0; i < matches.size(); i++ )
-		{
-			//-- Get the keypoints from the good matches
-			obj.push_back( objectKeypoints[ matches[i].queryIdx ].pt );
-			scene.push_back( sceneKeypoints[ matches[i].trainIdx ].pt );
-		}
-
+	  	KeyPoint::convert(sceneKeypoints, scene, std::vector<int>());
+	 	//for( int i = 0; i < matches.size(); i++ )
+		// {
+		// 	//-- Get the keypoints from the good matches
+		// 	//obj.push_back( objectKeypoints[ matches[i].queryIdx ].pt );
+		// 	scene.push_back( sceneKeypoints[ matches[i].trainIdx ].pt );
+		// }
+		std::vector<uchar> status;
+  		featureTracking(imgScene,imgObject, scene, obj, status);
 	    //cv::Mat H = findHomography( obj, scene, CV_RANSAC);
 		double focal = 718.8560;
 	  	cv::Point2d pp(607.1928, 185.2157);
@@ -79,16 +122,21 @@ int main(void) {
 		std::cout << "R = "<< std::endl << " "  << R << std::endl << std::endl;
 		std::cout << "t = "<< std::endl << " "  << t << std::endl << std::endl;
 	    
-		if (flag){
-			t_f = t;
-			R_f = R;
-			flag = 0;
-		}
-		else{
-			t_f = t_f + (R_f*t);
-      		R_f = R*R_f;
-		}
+	    if ( t.at<double>(2) > t.at<double>(0) && t.at<double>(2) > t.at<double>(1) ){
 
+	    	if (flag){
+				t_f = t;
+				R_f = R;
+				flag = 0;
+			}
+			else{
+				t_f = t_f + 0.5*(R_f*t);
+	      		R_f = R*R_f;
+			}
+
+	    }
+		
+	    scene = obj;
 		int x = int(t_f.at<double>(0)) + 300;
     	int y = int(t_f.at<double>(2)) + 100;
     	cv::circle(traj, cv::Point(x, y) ,1, CV_RGB(255,0,0), 2);
