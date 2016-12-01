@@ -10,34 +10,10 @@
 
 using namespace std;
 using namespace cv;
+
 #define MAX_FRAME 1000
 
-void featureTracking(cv::Mat img_1, cv::Mat img_2, std::vector<Point2f>& points1, std::vector<Point2f>& points2, std::vector<uchar>& status)	{ 
 
-//this function automatically gets rid of points for which tracking fails
-
-  std::vector<float> err;					
-  cv::Size winSize=Size(21,21);																								
-  TermCriteria termcrit=TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 0.01);
-
-  calcOpticalFlowPyrLK(img_1, img_2, points1, points2, status, err, winSize, 3, termcrit, 0, 0.001);
-
-  //getting rid of points for which the KLT tracking failed or those who have gone outside the frame
-  int indexCorrection = 0;
-  for( int i=0; i<status.size(); i++)
-     {  Point2f pt = points2.at(i- indexCorrection);
-     	if ((status.at(i) == 0)||(pt.x<0)||(pt.y<0))	{
-     		  if((pt.x<0)||(pt.y<0))	{
-     		  	status.at(i) = 0;
-     		  }
-     		  points1.erase (points1.begin() + (i - indexCorrection));
-     		  points2.erase (points2.begin() + (i - indexCorrection));
-     		  indexCorrection++;
-     	}
-
-     }
-
-}
 
 int main(void) {
 
@@ -51,13 +27,13 @@ int main(void) {
 
 
 	// char filename1[200];
- //  	char filename2[200];
- //  	sprintf(filename1, "/home/shiyu/mono-vo/dataset/sequences/00/image_1/%06d.png", 0);
- //  	sprintf(filename2, "/home/shiyu/mono-vo/dataset/sequences/00/image_1/%06d.png", 1);
+	//  	char filename2[200];
+	//  	sprintf(filename1, "/home/shiyu/mono-vo/dataset/sequences/00/image_1/%06d.png", 0);
+	//  	sprintf(filename2, "/home/shiyu/mono-vo/dataset/sequences/00/image_1/%06d.png", 1);
 	// cv::Mat imgScene = cv::imread(filename1);
 	// if (imgScene.empty()) {			    // if unable to open image
- //        std::cout << "error: image not read from file\n\n";		// show error message on command line
- //        return(0);												// and exit program
+	//        std::cout << "error: image not read from file\n\n";		// show error message on command line
+	//        return(0);												// and exit program
 	// }
 
 	// cv::Ptr<cv::ORB> orb = cv::ORB::create();
@@ -105,14 +81,35 @@ int main(void) {
 	    std::vector<cv::Point2f> obj;
 	  	std::vector<cv::Point2f> scene;
 	  	KeyPoint::convert(sceneKeypoints, scene, std::vector<int>());
+
+
 	 	//for( int i = 0; i < matches.size(); i++ )
 		// {
 		// 	//-- Get the keypoints from the good matches
 		// 	//obj.push_back( objectKeypoints[ matches[i].queryIdx ].pt );
 		// 	scene.push_back( sceneKeypoints[ matches[i].trainIdx ].pt );
 		// }
+
+
 		std::vector<uchar> status;
-  		featureTracking(imgScene,imgObject, scene, obj, status);
+		std::vector<float> err;
+		calcOpticalFlowPyrLK(imgScene,imgObject, scene, obj, status, err, Size(21,21), 3, TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 0.01), 0, 0.001);
+
+  		// int indexCorrection = 0;
+		// for( int i=0; i<status.size(); i++)
+		//  {  Point2f pt = obj.at(i- indexCorrection);
+		//  	if ((status.at(i) == 0)||(pt.x<0)||(pt.y<0))	{
+		//  		  if((pt.x<0)||(pt.y<0))	{
+		//  		  	status.at(i) = 0;
+		//  		  }
+		//  		  scene.erase (scene.begin() + (i - indexCorrection));
+		//  		  obj.erase (obj.begin() + (i - indexCorrection));
+		//  		  indexCorrection++;
+		//  	}
+
+		//  }
+
+		
 	    //cv::Mat H = findHomography( obj, scene, CV_RANSAC);
 		double focal = 718.8560;
 	  	cv::Point2d pp(607.1928, 185.2157);
