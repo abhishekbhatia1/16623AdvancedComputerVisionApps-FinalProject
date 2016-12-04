@@ -109,7 +109,13 @@ int main(void) {
 
 		//  }
 
-		
+		for(int j=0; j<obj.size(); j++){
+                if(status[j]){
+                    line(imgObject,scene[j],obj[j], CV_RGB(255,0,0));
+                }
+        }
+
+
 	    //cv::Mat H = findHomography( obj, scene, CV_RANSAC);
 		double focal = 718.8560;
 	  	cv::Point2d pp(607.1928, 185.2157);
@@ -137,7 +143,7 @@ int main(void) {
 		int x = int(t_f.at<double>(0)) + 300;
     	int y = int(t_f.at<double>(2)) + 100;
     	cv::circle(traj, cv::Point(x, y) ,1, CV_RGB(255,0,0), 2);
-
+    	imshow( "Road facing camera", imgObject );
     	cv::imshow( "Trajectory", traj );
 		cv::waitKey(1);
 
